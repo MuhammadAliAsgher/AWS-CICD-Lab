@@ -1,0 +1,54 @@
+# version: 0.2
+
+# phases:
+#   install:
+#     commands:
+#       - echo "No dependencies to install for plain HTML/CSS/JS project"
+#   pre_build:
+#     commands:
+#       - echo "Preparing for build process"
+#   build:
+#     commands:
+#       - echo "Zipping project files"
+#       - zip -r $ARTIFACT_NAME . # Zips the entire project directory
+#   post_build:
+#     commands:
+#       - echo "Configuring Git"
+#       - git config --global user.name "$GIT_USERNAME"
+#       - git config --global user.email "$GIT_EMAIL"
+#       - echo "Adding remote with authentication"
+#       - git remote set-url origin https://$GIT_USERNAME:$GIT_TOKEN@github.com/$GIT_USERNAME/AWS-CICD-Lab.git
+#       - git remote -v # Check remote URL
+#       - echo "Checking Git status"
+#       - git status # Check staged files
+#       - echo "Pushing artifact to GitHub"
+#       - git add $ARTIFACT_NAME || echo "Nothing to add"
+#       - git commit -m "Add $ARTIFACT_NAME" || echo "Nothing to commit"
+#       - git push origin $GIT_BRANCH || { echo "Git push failed"; exit 1; }
+
+# artifacts:
+#   files:
+#     - '**/*'
+
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - echo "No dependencies to install for plain HTML/CSS/JS project"
+  pre_build:
+    commands:
+      - echo "Preparing for build process"
+  build:
+    commands:
+      - echo "Zipping project files"
+      - zip -r $ARTIFACT_NAME . # Zips the entire project directory
+  post_build:
+    commands:
+      - echo "Build completed. Ready to upload artifacts to S3."
+
+artifacts:
+  files:
+    - $ARTIFACT_NAME # Include the artifact
+  discard-paths: yes # Avoid maintaining directory structure
+  base-directory: . # Base directory for the artifact
